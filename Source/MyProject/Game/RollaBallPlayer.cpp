@@ -38,16 +38,32 @@ void ARollaBallPlayer::BeginPlay()
 void ARollaBallPlayer::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
 
-void ARollaBallPlayer::MoveRight(float Value)
-{
+	// Axis Bindings
+	InputComponent->BindAxis("MoveForward", this, &ARollaBallPlayer::MoveForward);
+	InputComponent->BindAxis("MoveRight", this, &ARollaBallPlayer::MoveRight);
+	// Action Bindings
+	InputComponent->BindAction("Jump", IE_Pressed, this, &ARollaBallPlayer::Jump);
 }
 
 void ARollaBallPlayer::MoveForward(float Value)
 {
+	// Get the forward vector of the camera as it doesn't rotate and move the player in this direction based on
+	// value and MoveForce
+	const FVector Forward = Camera->GetForwardVector() * MoveForce * Value;
+	Mesh->AddForce(Forward);
+}
+
+void ARollaBallPlayer::MoveRight(float Value)
+{
+	// Get the right vector of the camera as it doesn't rotate and move the player in this direction based on
+	// value and MoveForce
+	const FVector Right = Camera->GetRightVector() * MoveForce * Value;
+	Mesh->AddForce(Right);
 }
 
 void ARollaBallPlayer::Jump()
 {
+	// Add impulse to the Mesh in x vector
+	Mesh->AddImpulse(FVector(0, 0, JumpImpulse));
 }
