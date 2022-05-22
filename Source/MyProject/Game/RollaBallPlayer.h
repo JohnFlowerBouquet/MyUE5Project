@@ -6,6 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "RollaBallPlayer.generated.h"
 
+class USpringArmComponent;
+class UCameraComponent;
+
 UCLASS()
 class MYPROJECT_API ARollaBallPlayer : public APawn
 {
@@ -19,11 +22,35 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+	// Define components
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UStaticMeshComponent *Mesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	USpringArmComponent *SpringArm;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UCameraComponent *Camera;
+
+	// Variables
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MoveForce = 500.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float JumpImpulse = 500.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 MaxJumpCount = 1;
+
+public:
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	// virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 
+private:
+
+	// Functions
+	void MoveRight(float Value);
+	void MoveForward(float value);
+	void Jump();
+
+	int32 JumpCount = 0;
 };
