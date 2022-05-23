@@ -25,6 +25,12 @@ ARollaBallPlayer::ARollaBallPlayer()
 void ARollaBallPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Axis Bindings
+	InputComponent->BindAxis("MoveForward", this, &ARollaBallPlayer::MoveForward);
+	InputComponent->BindAxis("MoveRight", this, &ARollaBallPlayer::MoveRight);
+	// Action Bindings
+	InputComponent->BindAction("Jump", IE_Pressed, this, &ARollaBallPlayer::Jump);
 }
 
 // Called every frame
@@ -38,12 +44,6 @@ void ARollaBallPlayer::BeginPlay()
 void ARollaBallPlayer::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	// Axis Bindings
-	InputComponent->BindAxis("MoveForward", this, &ARollaBallPlayer::MoveForward);
-	InputComponent->BindAxis("MoveRight", this, &ARollaBallPlayer::MoveRight);
-	// Action Bindings
-	InputComponent->BindAction("Jump", IE_Pressed, this, &ARollaBallPlayer::Jump);
 }
 
 void ARollaBallPlayer::MoveForward(float Value)
