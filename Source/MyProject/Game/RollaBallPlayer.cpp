@@ -19,12 +19,18 @@ ARollaBallPlayer::ARollaBallPlayer()
 	RootComponent = Mesh;
 	SpringArm->SetupAttachment(Mesh);
 	Camera->SetupAttachment(SpringArm);
+	Mesh->SetSimulatePhysics(true);
 }
 
 // Called when the game starts or when spawned
 void ARollaBallPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Mesh->OnComponentHit.AddDynamic(this, &ARollaBallPlayer::OnHit);
+
+	MoveForce *= Mesh->GetMass();
+	JumpImpulse *= Mesh->GetMass();
 }
 
 // Called every frame
@@ -64,6 +70,23 @@ void ARollaBallPlayer::MoveRight(float Value)
 
 void ARollaBallPlayer::Jump()
 {
+	if (JumpCount >= MaxJumpCount)
+	{
+		return;
+	}
 	// Add impulse to the Mesh in x vector
 	Mesh->AddImpulse(FVector(0, 0, JumpImpulse));
+	JumpCount++;
+}
+
+void ARollaBallPlayer::OnHit(UPrimitiveComponent *HitComponent, AActor *OtherActor, UPrimitiveComponent *OtherComp, FVector NormalImpulse, const FHitResult &Hit)
+{
+	float HitDirection = Hit.Normal.Z;
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, FString::Printf(TEXT("Z Normal: %f"), HitDirection));
+
+	// If it's more than 0 then we hit something below. 1 is flat, anything between is slope.
+	if (HitDirection > 0)
+	{
+		JumpCount = 0;
+	}
 }
