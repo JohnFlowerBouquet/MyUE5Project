@@ -15,6 +15,15 @@ class MYPROJECT_API ARollaBallGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 protected:
+
 	int32 ItemsCollected = 0;
-	int32 ItemsInLevel = 0;	
+	int32 ItemsInLevel = 0;
+
+	virtual void BeginPlay() override;
+
+	void UpdateItemText();
+
+public:
+
+	void ItemCollected();	
 };
