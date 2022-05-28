@@ -27,6 +27,7 @@ void ARollaBallPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// Event binding
 	Mesh->OnComponentHit.AddDynamic(this, &ARollaBallPlayer::OnHit);
 
 	MoveForce *= Mesh->GetMass();
