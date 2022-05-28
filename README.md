@@ -9,3 +9,6 @@
 2. Set Dynamic Global Illumination Method to None
 3. Set Reflection Method to None
 4. Set Shadow Map Method to Shadow Map
+
+## Debugging
+1. GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, FString::Printf(TEXT("Z Normal: %f"), HitDirection));

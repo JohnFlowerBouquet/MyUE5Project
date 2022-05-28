@@ -82,7 +82,6 @@ void ARollaBallPlayer::Jump()
 void ARollaBallPlayer::OnHit(UPrimitiveComponent *HitComponent, AActor *OtherActor, UPrimitiveComponent *OtherComp, FVector NormalImpulse, const FHitResult &Hit)
 {
 	float HitDirection = Hit.Normal.Z;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, FString::Printf(TEXT("Z Normal: %f"), HitDirection));
 
 	// If it's more than 0 then we hit something below. 1 is flat, anything between is slope.
 	if (HitDirection > 0)
